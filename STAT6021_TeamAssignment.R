@@ -81,6 +81,12 @@ x_coeff_var # 0.0116911
 # and the mean of coefficients for x should be 4,
 # because the original model is y <- 25 + 4*x + rnorm(100, mean=0, sd = 12)
 
+Sxx <- sum((x-mean(x))^2)
+var_intercept <- 144*(1/1000 + (mean(x)^2)/Sxx)
+var_intercept # 19.01978
+var_x_coeff <- 144/Sxx
+var_x_coeff # 0.01182987
+
 #   (c) Find a 95% confidence interval centered at each coefficient. Determine and report  
 #       the percentage of intervals that contain the true value of the coefficient. 
 #       What should the percentage be?
