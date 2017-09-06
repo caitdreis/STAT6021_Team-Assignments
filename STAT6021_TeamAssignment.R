@@ -110,4 +110,5 @@ var_x_coeff # 0.01182987
 
 #   (g) Find and report a 95% confidence interval for sigma^2 by finding the 2.5th and 97.5th 
 #       percentiles of the generated values of MS_Res to give the lower and upper confidence limits.
-percentile
+
+#quantile() for MS_res based on above calculation
