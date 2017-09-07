@@ -126,4 +126,5 @@ length(p_val_1$p_val[p_val_1$p_val<0.05]) # number of times that the null hypoth
 #   (g) Find and report a 95% confidence interval for sigma^2 by finding the 2.5th and 97.5th 
 #       percentiles of the generated values of MS_Res to give the lower and upper confidence limits.
 
-#quantile() for MS_res based on above calculation
+ms_res <- (anova(lm)$'Mean Sq'[2]) #MS_res 164.4999
+quantile(ms_res, c(.025, .975)) #MS_res based on above calculation
