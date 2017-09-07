@@ -56,6 +56,7 @@ predicted_values_lower <- c()
 predicted_values_higher <- c()
 predicted_values_lower_2 <- c()
 predicted_values_higher_2 <- c()
+ms_res <- c()
 
 # Generate the linear model 1000 times
 
@@ -69,6 +70,7 @@ for (i in 1:1000) {
   # Extract the values for coefficients and append them to corresponding vectors
   intercept <- c(intercept, summary(lm)$coefficients[1, 1])
   x_coeff <- c(x_coeff, summary(lm)$coefficients[2, 1])
+  ms_res <- c(ms_res, anova(lm)$'Mean Sq'[2])
   intercept_lower_conf <- c(intercept_lower_conf, confint(lm)[1,1])
   intercept_high_conf <- c(intercept_high_conf, confint(lm)[1,2])
   slope_lower_conf <- c(slope_lower_conf, confint(lm)[2,1])
@@ -121,9 +123,9 @@ intercept_95 = cbind(intercept_lower_conf, intercept_high_conf)
 i = 0
 
 for (g in 1:nrow(intercept_high_conf)) { 
-if (intercept_high_conf[g,1] >= 25 & intercept_lower_conf[g,1] < 25) {
-  i = i + 1
-}
+  if (intercept_high_conf[g,1] >= 25 & intercept_lower_conf[g,1] < 25) {
+    i = i + 1
+  }
 }
 
 i
@@ -229,5 +231,4 @@ i
 #   (g) Find and report a 95% confidence interval for sigma^2 by finding the 2.5th and 97.5th 
 #       percentiles of the generated values of MS_Res to give the lower and upper confidence limits.
 
-ms_res <- (anova(lm)$'Mean Sq'[2]) #MS_res 164.4999
 quantile(ms_res, c(.025, .975)) #MS_res based on above calculation
