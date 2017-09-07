@@ -96,6 +96,21 @@ var_x_coeff # 0.01182987
 #       Determine and report the proportion of times that the null hypothesis is rejected, 
 #       implying that beta_1 not= 4.
 
+p_val <- c()
+for (i in 1:1000){
+  t<- t.test(x_coeff, rnorm(100, mean=0, sd=12), mu=4)$p.value
+  p_val <- rbind(p_val, t)
+}
+
+p_val_1 <- data.frame(p_val)
+
+
+length(p_val_1$p_val[p_val_1$p_val<0.05]) # number of times that the null hypothesis is rejected 51
+
+# Reject the null if p-value is lower than 0.05
+
+51/1000
+# 5.1% 
 
 #   (e) For each set of coefficients, find a 95% confidence interval for the mean
 #       response associated with x = 18. Determine and report the percentage of your
