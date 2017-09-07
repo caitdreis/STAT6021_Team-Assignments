@@ -44,11 +44,22 @@ aov(y~x)
 # for each repetition.
 
 # Create three vectors for vectors of y, values of intercept, and values of x coefficient
+
 y_vec <- c()
 intercept <- c()
 x_coeff <- c()
+intercept_lower_conf <- c()
+intercept_high_conf <- c()
+slope_high_conf <- c()
+slope_lower_conf <- c()
+predicted_values_lower <- c()
+predicted_values_higher <- c()
+
 # Generate the linear model 1000 times
-for (i in 1:1000){
+
+X6 <- data.frame(x = 18)
+
+for (i in 1:1000) {
   y <- 25 + 4*x + rnorm(100, mean=0, sd = 12)
   # Append the vector of y to the original y vector
   y_vec <- rbind(y_vec, y)
@@ -56,9 +67,18 @@ for (i in 1:1000){
   # Extract the values for coefficients and append them to corresponding vectors
   intercept <- c(intercept, summary(lm)$coefficients[1, 1])
   x_coeff <- c(x_coeff, summary(lm)$coefficients[2, 1])
+  intercept_lower_conf <- c(intercept_lower_conf, confint(lm)[1,1])
+  intercept_high_conf <- c(intercept_high_conf, confint(lm)[1,2])
+  slope_lower_conf <- c(slope_lower_conf, confint(lm)[2,1])
+  slope_high_conf <- c(slope_high_conf, confint(lm)[2,2])
+  predicted_values_lower <- c(predicted_values_lower, predict(lm, X6, interval="confidence", level=0.95)[2])
+  predicted_values_higher <- c(predicted_values_higher, predict(lm, X6, interval="confidence", level=0.95)[3])
 }
+
+
 # Convert the vectors of y to a dataframe
 y_vec <- data.frame(y_vec)
+
 
 #   (a) Determine and report the mean and variance of the generated coefficients.
 
@@ -91,6 +111,42 @@ var_x_coeff # 0.01182987
 #       the percentage of intervals that contain the true value of the coefficient. 
 #       What should the percentage be?
 
+intercept_lower_conf = as.data.frame(intercept_lower_conf)
+intercept_high_conf = as.data.frame(intercept_high_conf)
+
+intercept_95 = cbind(intercept_lower_conf, intercept_high_conf)
+
+i = 0
+
+for (g in 1:nrow(intercept_high_conf)) { 
+if (intercept_high_conf[g,1] >= 25 & intercept_lower_conf[g,1] < 25) {
+  i = i + 1
+}
+}
+
+i
+
+# 957 values. 95.7 % of values have the value 25
+
+slope_lower_conf = as.data.frame(slope_lower_conf)
+slope_high_conf = as.data.frame(slope_high_conf)
+
+slope_95 = cbind(slope_lower_conf, slope_high_conf)
+
+i = 0
+
+for (g in 1:nrow(slope_high_conf)) { 
+  if (slope_high_conf[g,1] >= 4 & slope_lower_conf[g,1] < 4) {
+    i = i + 1
+  }
+}
+
+i
+
+# 957. 95.7% of values have the value 4
+
+# Well I guess both values should be close to 95
+
 
 #   (d) Carry out the hypothesis test H0: beta_1 = 4 vs H1: beta_1 not= 4 at a 5% significance level. 
 #       Determine and report the proportion of times that the null hypothesis is rejected, 
@@ -115,6 +171,25 @@ n/1000 # 4.7%
 #       response associated with x = 18. Determine and report the percentage of your
 #       intervals that contain the true value. What should the percentage be?
 
+# the 95% confidence interval for all the values
+
+predicted_values_lower = as.data.frame(predicted_values_lower)
+predicted_values_higher = as.data.frame(predicted_values_higher)
+
+predicted_values = cbind(predicted_values_lower, predicted_values_higher)
+
+i = 0
+
+for (g in 1:nrow(predicted_values)) { 
+  if (predicted_values_higher[g,1] >= 97 & predicted_values_lower[g,1] < 97) {
+    i = i + 1
+  }
+}
+
+i
+
+# 956 values have 97 which is 25 + 4*18. 95.6% values have it
+# The percentage should be 95
 
 #   (f) For each estimated mean response from part (d), find a corresponding
 #       95% prediction interval for the response y. Generate one random response y based 
