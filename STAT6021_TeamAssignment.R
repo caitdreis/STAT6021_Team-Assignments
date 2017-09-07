@@ -54,6 +54,8 @@ slope_high_conf <- c()
 slope_lower_conf <- c()
 predicted_values_lower <- c()
 predicted_values_higher <- c()
+predicted_values_lower_2 <- c()
+predicted_values_higher_2 <- c()
 
 # Generate the linear model 1000 times
 
@@ -196,6 +198,33 @@ i
 #       on the true model. Determine and report the percentage of intervals that contain the response.
 #       What should the percentage be?
 
+y_vec_2 <- c()
+
+for (i in 1:1000) {
+  y <- 25 + 4*x + rnorm(100, mean=0, sd = 12)
+  # Append the vector of y to the original y vector
+  y_vec_2 <- rbind(y_vec_2, y)
+  lm2 <- lm(y~x)
+  predicted_values_lower_2 <- c(predicted_values_lower_2, predict(lm2, data.frame(x=18), interval="prediction", level=0.95)[2])
+  predicted_values_higher_2 <- c(predicted_values_higher_2, predict(lm2, data.frame(x=18), interval="prediction", level=0.95)[3])
+}
+
+predicted_values_lower_2 = as.data.frame(predicted_values_lower_2)
+predicted_values_higher_2 = as.data.frame(predicted_values_higher_2)
+
+predicted_values = cbind(predicted_values_lower_2, predicted_values_higher_2)
+
+i = 0
+
+for (g in 1:nrow(predicted_values)) { 
+  if (predicted_values_higher_2[g,1] >= 97 & predicted_values_lower_2[g,1] < 97) {
+    i = i + 1
+  }
+}
+
+i
+
+# 1000/1000  100%
 
 #   (g) Find and report a 95% confidence interval for sigma^2 by finding the 2.5th and 97.5th 
 #       percentiles of the generated values of MS_Res to give the lower and upper confidence limits.
