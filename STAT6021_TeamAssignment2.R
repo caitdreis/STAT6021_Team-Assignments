@@ -16,8 +16,17 @@
 # For this problem you will use the data in the file "teamassign02data01.csv" to implement   
 # a simple form of the bootstrap resampling method.  Repeat (a) and (b) 1000 times:
 #
+data <- read.csv("teamassign02data01.csv") # Read in data
+
 #   (a) From the data set, select **with replacement** 100 random pairs (x,y).
 #       You will have some repeats -- which is OK and expected.
+
+sample_x <- sample(data[1]$x, replace=TRUE)
+sample_y <- sample(data[2]$y, replace=TRUE)
+
+pairing <- cbind(sample_x,sample_y)
+View(pairing)
+
 #   (b) Use your sample to generate a regression equation. Save the values of 
 #       hat(beta_0) and hat(beta_1).
 #   (c) Find and report a 95% confidence interval for beta_0 and beta_1 by determining
