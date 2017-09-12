@@ -74,3 +74,4 @@ for (i in 1:100){
   sigvar_prop <- c(sigvar_prop, numsig/20)
 }
 sigvar_prop
+mean(sigvar_prop) # 0.0535, which is really close to 0.05 (the expected theoretical value)
