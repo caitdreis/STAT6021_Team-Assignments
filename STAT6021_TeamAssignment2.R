@@ -41,11 +41,36 @@ View(pairing)
 # Import the data set "teamassign02data02.csv" which contains 100 sets of data for 
 # the variables x1, x2, ..., x20.  Repeat (a)-(c) 100 times: 
 #
+
+sigvar_prop <- c()
+for (i in 1:100){
+
 #   (a) Generate 100 y values according to the model y ~ N(10, var=5^2) and pair up 
 #       the y-values with corresponding rows from the data set of x-values.
+  
+  data2 <- read.csv("teamassign02data02.csv")
+  
+  y <- rnorm(100, mean=10, sd = 5)
+  data2 <- cbind(data2, y)
+  
 #   (b) On the data set from part (a), generate a multiple regression model with
 #       all of the x-values as explanatory variables.
+  
+  data2.lm <- lm(y ~., data = data2)
+
 #   (c) Determine the number of significant explanatory variables at the 5% level.
+  
+  summary(data2.lm) # x4 and x12
+
 #   (d) Determine and report the proportion of significant variables in the 100
 #       simulations. Compare this proportion with the expected theoretical value.
-
+  
+  numsig <- 0
+  for (j in 2:20){
+    if (summary(data2.lm)$coefficients[j, 4] <= 0.05){
+      numsig <- numsig + 1
+    }
+  }
+  sigvar_prop <- c(sigvar_prop, numsig/20)
+}
+sigvar_prop
