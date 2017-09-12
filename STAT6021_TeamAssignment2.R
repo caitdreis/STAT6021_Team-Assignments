@@ -33,25 +33,29 @@ for ( i in 1:1000){
 }
 
 View(pair_set)
-
 #   (b) Use your sample to generate a regression equation. Save the values of 
 #       hat(beta_0) and hat(beta_1).
 
 lm.1 <- lm(sample_y~sample_x)
 summary(lm.1)
 n=100
-mse1 <- sum(lm.1$residuals^2)/n;mse1 #2092.287
+mse1 <- sum(lm.1$residuals^2)/n;mse1 #2498.505
 
+beta_0 <- lm.1$coefficients[1]; beta_0 #196.5196
+beta_1 <- lm.1$coefficients[2]; beta_1 #-0.3997732 
+  
 #   (c) Find and report a 95% confidence interval for beta_0 and beta_1 by determining
 #       the 2.5th and 97.5th percentiles for each set of values.  Do the confidence 
 #       intervals contain the true parameter values?
-
-beta_0 <- lm.1$coefficients[1]; beta_0
-beta_1 <- lm.1$coefficients[2]; beta_1
   
 quantile(beta_0, c(.025, .975)) 
+#   2.5%    97.5% 
+#196.5196 196.5196 
 
 quantile(beta_1, c(.025, .975)) 
+#     2.5%      97.5% 
+#-0.3997732 -0.3997732 
+
 
 #################
 ## Question 2: ##
