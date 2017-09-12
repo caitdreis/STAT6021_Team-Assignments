@@ -21,11 +21,18 @@ data <- read.csv("teamassign02data01.csv") # Read in data
 #   (a) From the data set, select **with replacement** 100 random pairs (x,y).
 #       You will have some repeats -- which is OK and expected.
 
-sample_x <- sample(data[1]$x, replace=TRUE)
-sample_y <- sample(data[2]$y, replace=TRUE)
+pair_set <- c()  # create empty vector to store values from for loop
 
-pairing <- cbind(sample_x,sample_y)
-View(pairing)
+for ( i in 1:1000){
+  
+  sample_x <- sample(data[1]$x, replace=TRUE)
+  sample_y <- sample(data[2]$y, replace=TRUE)
+  
+  pairing <- cbind(sample_x,sample_y)  
+  pair_set <- rbind(pair_set,pairing)  # add in 100 random pairs each time it is generated to pair_set
+}
+
+View(pair_set)
 
 #   (b) Use your sample to generate a regression equation. Save the values of 
 #       hat(beta_0) and hat(beta_1).
