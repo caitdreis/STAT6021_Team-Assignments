@@ -37,10 +37,40 @@
 # demonstrate through simulation the effects of multicollinearity on the variance of the regression 
 # coefficients and how they influence the accuracy of predictions.
 #
+# Read in data
+
+data02 <- read.csv("teamassign03data02.csv")
+data03 <- read.csv("teamassign03data03.csv")
+
+
 #   (a) Repeat the following 1000 times:
+
+for ( i in 1:1000){
+  
 #       (1) Select a random sample of 100 observations from data02.
+
+# with replacement?
+
+  sample <- data02[sample(nrow(iris), 100, replace = FALSE), ]  # select 100 random observations
+
 #       (2) Fit a linear model to the 100 observations using all four variables. Save the values
 #           of the estimated coefficients in separate vectors.
+
+
+  lm1 <- lm(y ~., data=sample)
+  
+  summary(lm1)
+
+
+# store estimated coeffiecient in separate vectors.
+
+  beta_0 <- lm1$coefficients[1]
+  beta_1 <- lm1$coefficients[2]
+  beta_2 <- lm1$coefficients[3]
+  beta_3 <- lm1$coefficients[4]
+}
+
+
 #       (3) Use your linear model to predict the y-values given in data03 then compute the MSE
 #           using these residuals. Save this value in a vector.
 #       (4) Compute the standard deviation for the vectors containing the coefficients and compute
