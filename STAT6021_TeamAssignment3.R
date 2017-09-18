@@ -17,14 +17,72 @@
 # For this problem you will use the file "teamassign03data01.csv" to # demonstrate through simulation
 # the effects of leaving an important predictor out of the model.
 #
+data1 <- read.csv("teamassign03data01.csv") # Read in data
+
 #   (a) Repeat (1)-(3) 1000 times:
+
+intercept <- c()
+x1_coeff <- c()
+x2_coeff <- c()
+x3_coeff <- c()
+sigintcp <- c()
+sigx1 <- c()
+sigx2 <- c()
+sigx3 <- c()
+
+for (i in 1:1000){
+  
 #       (1) Select a random sample of 100 observations from data01.
+  rand_data1 <- data1[sample(nrow(data1), 100),]
 #       (2) Fit a linear model to the 100 observations using all three variables. Save the values
 #           of the estimated coefficients (including the intercept) in separate vectors.
+  lm1 <- lm(y ~., data = rand_data1)
+  # Extract the values for coefficients and append them to corresponding vectors
+  intercept <- c(intercept, summary(lm1)$coefficients[1, 1])
+  x1_coeff <- c(x1_coeff, summary(lm1)$coefficients[2, 1])
+  x2_coeff <- c(x2_coeff, summary(lm1)$coefficients[3, 1])
+  x3_coeff <- c(x3_coeff, summary(lm1)$coefficients[4, 1])
 #       (3) Conduct the individual t-test on each coefficient (including the intercept) and record
 #           whether the estimate is found to be significant.
+  # t value of 95% confidence interval is qt(0.975, df=98) = 1.984467
+  # If the t value of the coefficient is larger than 1.984467, then it is significant
+  if (summary(lm1)$coefficients[1, 3] > qt(0.975, df=98)){
+    sigintcp <- c(sigintcp, 1) # 1 if significant, 0 when insignificant
+  } else{
+    sigintcp <- c(sigintcp, 0)
+  }
+  if (summary(lm1)$coefficients[2, 3] > qt(0.975, df=98)){
+    sigx1 <- c(sigx1, 1) # 1 if significant, 0 when insignificant
+  } else{
+    sigx1 <- c(sigx1, 0)
+  }
+  if (summary(lm1)$coefficients[3, 3] > qt(0.975, df=98)){
+    sigx2 <- c(sigx2, 1) # 1 if significant, 0 when insignificant
+  } else{
+    sigx2 <- c(sigx2, 0)
+  }
+  if (summary(lm1)$coefficients[4, 3] > qt(0.975, df=98)){
+    sigx3 <- c(sigx3, 1) # 1 if significant, 0 when insignificant
+  } else{
+    sigx3 <- c(sigx3, 0)
+  }
+}
 #       (4) Compute the mean of each vector containing the coefficients and compute the proportion of
 #           times that each coefficient was found to be significant. Record these values.
+
+mean(intercept) # 11.88385
+mean(x1_coeff) # 5.28845
+mean(x2_coeff) # 131.821
+mean(x3_coeff) # 1.723783
+sigintcp_prop <- sum(sigintcp) / 1000
+sigintcp_prop # 0.048
+sigx1_prop <- sum(sigx1) / 1000
+sigx1_prop # 1
+sigx2_prop <- sum(sigx2) / 1000
+sigx2_prop # 1
+sigx3_prop <- sum(sigx3) / 1000
+sigx3_prop # 0.996
+
 #   (b) Repeat part (a) using only the variables x1 and x3 in the model.
 #   (c) How do the results from parts (a)(4) and (b)(4) compare? Explain what you observe.
 
