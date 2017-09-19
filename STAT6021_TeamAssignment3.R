@@ -103,11 +103,18 @@ data03 <- read.csv("teamassign03data03.csv")
 
 #   (a) Repeat the following 1000 times:
 
+
+# create empty vector to store each coefficient
+
+q2_x1_coeff <- c()
+q2_x2_coeff <- c()
+q2_x3_coeff <- c()
+q2_x4_coeff <- c()
+
+
 for ( i in 1:1000){
   
 #       (1) Select a random sample of 100 observations from data02.
-
-# with replacement?
 
   sample <- data02[sample(nrow(iris), 100, replace = FALSE), ]  # select 100 random observations
 
@@ -115,19 +122,14 @@ for ( i in 1:1000){
 #           of the estimated coefficients in separate vectors.
 
 
-  lm1 <- lm(y ~., data=sample)
+  lm2 <- lm(y ~., data=sample)
   
-  summary(lm1)
+  q2_x1_coeff <- c(q2_x1_coeff, summary(lm2)$coefficients[2])
+  q2_x2_coeff <- c(q2_x2_coeff, summary(lm2)$coefficients[3])
+  q2_x3_coeff <- c(q2_x3_coeff, summary(lm2)$coefficients[4])
+  q2_x4_coeff <- c(q2_x4_coeff, summary(lm2)$coefficients[5])
 
-
-# store estimated coeffiecient in separate vectors.
-
-  beta_0 <- lm1$coefficients[1]
-  beta_1 <- lm1$coefficients[2]
-  beta_2 <- lm1$coefficients[3]
-  beta_3 <- lm1$coefficients[4]
 }
-
 
 #       (3) Use your linear model to predict the y-values given in data03 then compute the MSE
 #           using these residuals. Save this value in a vector.
