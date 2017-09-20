@@ -134,21 +134,30 @@ for ( i in 1:1000){
 #       (3) Use your linear model to predict the y-values given in data03 then compute the MSE
 #           using these residuals. Save this value in a vector.
 
-# create vector for predicted y-values
-pred_y <- c()
+mses <- c()
 
 # predict y-values using linear model
 y_hat2 <- predict(lm2, newdata = data03, type = "response")
 
-# save predicted y-values in created vector
-pred_y <- cbind(pred_y, y_hat2)
+# compute mse and save the values in a vector
+mse <- lm2$residuals^2
+mses <- cbind(mses, mse)
 
-# compute mse
-mse <- mean(lm2$residuals^2)
-mse  # 450.6558
+
 
 #       (4) Compute the standard deviation for the vectors containing the coefficients and compute
 #           the mean of the vector containing the MSEs. Record these values.
+
+
+sd(q2_x1_coeff)  # 2.014312
+sd(q2_x2_coeff)  # 2.033174
+sd(q2_x3_coeff)  # 2.025544
+sd(q2_x4_coeff)  # 0.08766889
+
+# compute mean mse
+mean(mses)  # 450.6558
+
+
 #   (b) Choose a suitable variable to remove from the model. Repeat (1)-(4) given in part (a)
 #       1000 times using this model.
 #   (c) How do the results from parts (a)(4) and (b)(4) compare? Explain what you observe.
