@@ -111,7 +111,7 @@ q2_x2_coeff <- c()
 q2_x3_coeff <- c()
 q2_x4_coeff <- c()
 
-
+set.seed(23)
 for ( i in 1:1000){
   
 #       (1) Select a random sample of 100 observations from data02.
@@ -131,6 +131,7 @@ for ( i in 1:1000){
 
 }
 
+
 #       (3) Use your linear model to predict the y-values given in data03 then compute the MSE
 #           using these residuals. Save this value in a vector.
 
@@ -149,16 +150,56 @@ mses <- cbind(mses, mse)
 #           the mean of the vector containing the MSEs. Record these values.
 
 
-sd(q2_x1_coeff)  # 2.014312
-sd(q2_x2_coeff)  # 2.033174
-sd(q2_x3_coeff)  # 2.025544
-sd(q2_x4_coeff)  # 0.08766889
+sd(q2_x1_coeff)  # 2.009702
+sd(q2_x2_coeff)  # 2.027125
+sd(q2_x3_coeff)  # 2.023239
+sd(q2_x4_coeff)  # 0.08561664
 
 # compute mean mse
-mean(mses)  # 450.6558
-
+mean(mses)  # 492.8647
 
 #   (b) Choose a suitable variable to remove from the model. Repeat (1)-(4) given in part (a)
 #       1000 times using this model.
+
+
+# remove variable x3 (highest p-value)
+
+data02$x3 <- NULL
+
+# create empty vector to store each coefficient
+
+q2_b_x1_coeff <- c()
+q2_b_x2_coeff <- c()
+q2_b_x4_coeff <- c()
+
+for ( i in 1:1000){
+  sample <- data02[sample(nrow(iris), 100, replace = FALSE), ]  # select 100 random observations
+  
+  lm3 <- lm(y ~., data=sample)
+  
+  q2_b_x1_coeff <- c(q2_b_x1_coeff, summary(lm3)$coefficients[2])
+  q2_b_x2_coeff <- c(q2_b_x2_coeff, summary(lm3)$coefficients[3])
+  q2_b_x4_coeff <- c(q2_b_x4_coeff, summary(lm3)$coefficients[4])
+  
+}
+
+mses_b <- c()
+
+# predict y-values using linear model
+y_hat3 <- predict(lm3, newdata = data03, type = "response")
+
+# compute mse and save the values in a vector
+mse_b <- lm3$residuals^2
+mses_b <- cbind(mses_b, mse_b)
+
+sd(q2_b_x1_coeff)  # 0.08379399
+sd(q2_b_x2_coeff)  # 0.08591905
+sd(q2_b_x4_coeff)  # 0.08898976
+
+# compute mean mse
+mean(mses_b)  # 394.8633
+
 #   (c) How do the results from parts (a)(4) and (b)(4) compare? Explain what you observe.
+
+# part (a) (4) shows higher standard deviation in all coefficients and higher mean MSE
 
