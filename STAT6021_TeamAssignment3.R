@@ -86,7 +86,6 @@ sigx3_prop # 0.996
 #   (b) Repeat part (a) using only the variables x1 and x3 in the model.
 #   (c) How do the results from parts (a)(4) and (b)(4) compare? Explain what you observe.
 
-
 #################
 ## Question 2: ##
 #################
@@ -114,21 +113,21 @@ q2_x4_coeff <- c()
 set.seed(23)
 for ( i in 1:1000){
   
-#       (1) Select a random sample of 100 observations from data02.
-
+  #       (1) Select a random sample of 100 observations from data02.
+  
   sample <- data02[sample(nrow(iris), 100, replace = FALSE), ]  # select 100 random observations
-
-#       (2) Fit a linear model to the 100 observations using all four variables. Save the values
-#           of the estimated coefficients in separate vectors.
-
-
+  
+  #       (2) Fit a linear model to the 100 observations using all four variables. Save the values
+  #           of the estimated coefficients in separate vectors.
+  
+  
   lm2 <- lm(y ~., data=sample)
   
   q2_x1_coeff <- c(q2_x1_coeff, summary(lm2)$coefficients[2])
   q2_x2_coeff <- c(q2_x2_coeff, summary(lm2)$coefficients[3])
   q2_x3_coeff <- c(q2_x3_coeff, summary(lm2)$coefficients[4])
   q2_x4_coeff <- c(q2_x4_coeff, summary(lm2)$coefficients[5])
-
+  
 }
 
 
@@ -160,7 +159,6 @@ mean(mses)  # 492.8647
 
 #   (b) Choose a suitable variable to remove from the model. Repeat (1)-(4) given in part (a)
 #       1000 times using this model.
-
 
 # remove variable x3 (highest p-value)
 
@@ -201,5 +199,5 @@ mean(mses_b)  # 394.8633
 
 #   (c) How do the results from parts (a)(4) and (b)(4) compare? Explain what you observe.
 
-# part (a) (4) shows higher standard deviation in all coefficients and higher mean MSE
-
+# part (a) (4) with all the variables shows higher standard deviation across all coefficients and higher mean MSE compared 
+#to the model with removing the variable with the highest p-value significance.
