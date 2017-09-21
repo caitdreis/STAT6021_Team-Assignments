@@ -29,6 +29,7 @@ sigintcp <- c()
 sigx1 <- c()
 sigx2 <- c()
 sigx3 <- c()
+set.seed(1)
 
 for (i in 1:1000){
   
@@ -70,18 +71,18 @@ for (i in 1:1000){
 #       (4) Compute the mean of each vector containing the coefficients and compute the proportion of
 #           times that each coefficient was found to be significant. Record these values.
 
-mean(intercept) # 11.88385
-mean(x1_coeff) # 5.28845
-mean(x2_coeff) # 131.821
-mean(x3_coeff) # 1.723783
+mean(intercept) # 11.20536
+mean(x1_coeff) # 5.28508
+mean(x2_coeff) # 131.8363
+mean(x3_coeff) # 1.717074
 sigintcp_prop <- sum(sigintcp) / 1000
-sigintcp_prop # 0.048
+sigintcp_prop # 0.033
 sigx1_prop <- sum(sigx1) / 1000
 sigx1_prop # 1
 sigx2_prop <- sum(sigx2) / 1000
 sigx2_prop # 1
 sigx3_prop <- sum(sigx3) / 1000
-sigx3_prop # 0.996
+sigx3_prop # 0.999
 
 #   (b) Repeat part (a) using only the variables x1 and x3 in the model.
 
