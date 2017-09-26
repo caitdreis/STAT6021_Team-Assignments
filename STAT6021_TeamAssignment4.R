@@ -80,7 +80,7 @@ qqline(rstudent(lm2))
 #       What assumptions may not be satisfied? Explain.
 
 # (1)
-
+plot(predict(lm2), rstudent(lm2))
 # (2)
 plot(data$x1, rstudent(lm2))
 plot(data$x2, rstudent(lm2))
