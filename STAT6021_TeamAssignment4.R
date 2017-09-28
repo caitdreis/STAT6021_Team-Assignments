@@ -1,16 +1,3 @@
-
-###########################
-#                         #
-#   Team Assignment 4     #
-#                         #
-###########################
-
-## Please submit one set of answers per team.                  ##
-## Your answers may be submitted as an annotated R file.       ##
-## Please submit your plots in a PDF as a separate attachment. ##
-#################################################################
-
-
 #################
 ## Question 1: ##
 #################
@@ -20,19 +7,60 @@
 # not possible, explain why it is not possible. For each part, include a plot that shows the 
 # interesting points.
 #
+## Read in the data
+bpdata <- read.table("Blood pressure data.txt", header=TRUE); bpdata
+
+bp.lm <- lm(BP~weight, data=bpdata) #Run the linear regression
+ei <-resid(bp.lm) ## Find the residuals
+
+library("MASS") #need this package to calculate the studentized residual with studres()
+studentized <- studres(bp.lm); studentized #Find the studentized residuals
+rstudent <-rstudent(bp.lm); rstudent #Find the R-student residuals
+standardized = rstandard(bp.lm); standardized #Find the standardized residuals
+
+#Find the PRESS residuals
+(r <- resid(bp.lm))
+(pr <- resid(bp.lm)/(1 - lm.influence(bp.lm)$hat))
+sum(r^2)
+press<- sum(pr^2) #PRESS residual is 2061.659
+
+qqnorm(rstudent(bp.lm)) #Normal probabilty plot
+qqline(rstudent(bp.lm)) #fitted line to the probability plot
+
+## Residual plot vs. fitted values
+yhat <- fitted(bp.lm)
+plot(yhat,ti)
+
+## Residual plots vs. explanatory variables
+plot(bpdata$weight,ti)
+
 #   (a) The data set has a point that is clearly visible for all four types of residuals 
 #       discussed -- standardized, studentized, PRESS, R-student.
+
+plot(bpdata$BP, standardized, ylab="Residuals", xlab="Blood Pressure") 
+plot(bpdata$BP, studentized, ylab="Residuals", xlab="Blood Pressure") 
+plot(bpdata$BP, rstudent, ylab="Residuals", xlab="Blood Pressure") 
+plot(bpdata$BP, pr, ylab="Residuals", xlab="Blood Pressure") 
+
+
 #   (b) The data set has a point that stands out when viewing studentized residuals but not 
 #       when viewing standardized residuals.
+
+
 #   (c) The data set has a point that stands out when viewing PRESS residuals but not when 
 #       viewing standardized residuals.
+
+
 #   (d) The data set has a point that stands out when viewing R-student residuals but not when 
 #       viewing standardized residuals.
+
+
 #   (e) The data set has a point that stands out when viewing PRESS residuals but not when 
 #       viewing studentized residuals.
+
+
 #   (f) The data set has a point that stands out when viewing R-student residuals but not when 
 #       viewing PRESS residuals.
-
 
 
 #################
