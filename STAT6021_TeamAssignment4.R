@@ -27,25 +27,49 @@ press<- sum(pr^2) #PRESS residual is 2061.659
 qqnorm(rstudent(bp.lm)) #Normal probabilty plot
 qqline(rstudent(bp.lm)) #fitted line to the probability plot
 
-## Residual plot vs. fitted values
+##Residual plot vs. fitted values with rstudent residuals
 yhat <- fitted(bp.lm)
-plot(yhat,ti)
+plot(yhat,rstudent)
 
-## Residual plots vs. explanatory variables
-plot(bpdata$weight,ti)
+##rstudent residual plots vs. explanatory variables
+plot(bpdata$weight,rstudent)
+
+#plot preidcted values and actual values
+predict<- predict(bp.lm)
+attach(bpdata)
+library("ggplot2")
+ggplot(bpdata, aes(x = BP, y = weight)) +
+  geom_point() +
+  geom_point(aes(y = predict), shape = 1)  
 
 #   (a) The data set has a point that is clearly visible for all four types of residuals 
 #       discussed -- standardized, studentized, PRESS, R-student.
 
-plot(bpdata$BP, standardized, ylab="Residuals", xlab="Blood Pressure") 
-plot(bpdata$BP, studentized, ylab="Residuals", xlab="Blood Pressure") 
-plot(bpdata$BP, rstudent, ylab="Residuals", xlab="Blood Pressure") 
-plot(bpdata$BP, pr, ylab="Residuals", xlab="Blood Pressure") 
+#residuals on the y axis, BP on the x axis
+plot(bpdata$BP, standardized, ylab="Standardized Residuals", xlab="Blood Pressure") 
+plot(bpdata$BP, studentized, ylab="Studentized Residuals", xlab="Blood Pressure") 
+plot(bpdata$BP, rstudent, ylab="R-Student Residuals", xlab="Blood Pressure") 
+plot(bpdata$BP, pr, ylab="PRESS Residuals", xlab="Blood Pressure") 
 
+#residuals on the x axis, BP on the y axis
+plot(standardized, bpdata$BP, ylab="Standardized Residuals", xlab="Blood Pressure") 
+plot(studentized,bpdata$BP, ylab="Studentized Residuals", xlab="Blood Pressure") 
+plot(rstudent, bpdata$BP, ylab="R-Student Residuals", xlab="Blood Pressure") 
+plot(pr,bpdata$BP, ylab="PRESS Residuals", xlab="Blood Pressure") 
+
+#using weight as the xaxis
+plot(bpdata$weight, standardized, ylab="Standardized Residuals", xlab="Blood Pressure") 
+plot(bpdata$weight, studentized, ylab="Studentized Residuals", xlab="Blood Pressure") 
+plot(bpdata$weight, rstudent, ylab="R-Student Residuals", xlab="Blood Pressure") 
+plot(bpdata$weight, pr, ylab="PRESS Residuals", xlab="Blood Pressure") 
+
+#There is one point that is at x=140 BP and the residual is the lowest that is constant across all 4 types.
 
 #   (b) The data set has a point that stands out when viewing studentized residuals but not 
 #       when viewing standardized residuals.
 
+plot(bpdata$BP, standardized, ylab="Standardized Residuals", xlab="Blood Pressure") 
+plot(bpdata$BP, studentized, ylab="Studentized Residuals", xlab="Blood Pressure") 
 
 #   (c) The data set has a point that stands out when viewing PRESS residuals but not when 
 #       viewing standardized residuals.
