@@ -46,22 +46,18 @@ ggplot(bpdata, aes(x = BP, y = weight)) +
 #       discussed -- standardized, studentized, PRESS, R-student.
 
 #residuals on the y axis, BP on the x axis
+#abline put a line to illustrate shift in points
 plot(bpdata$BP, standardized, ylab="Standardized Residuals", xlab="Blood Pressure") 
 plot(bpdata$BP, studentized, ylab="Studentized Residuals", xlab="Blood Pressure") 
 plot(bpdata$BP, rstudent, ylab="R-Student Residuals", xlab="Blood Pressure") 
 plot(bpdata$BP, pr, ylab="PRESS Residuals", xlab="Blood Pressure") 
+abline(h=-0.75)
 
 #residuals on the x axis, BP on the y axis
 plot(standardized, bpdata$BP, ylab="Standardized Residuals", xlab="Blood Pressure") 
 plot(studentized,bpdata$BP, ylab="Studentized Residuals", xlab="Blood Pressure") 
 plot(rstudent, bpdata$BP, ylab="R-Student Residuals", xlab="Blood Pressure") 
 plot(pr,bpdata$BP, ylab="PRESS Residuals", xlab="Blood Pressure") 
-
-#using weight as the xaxis
-plot(bpdata$weight, standardized, ylab="Standardized Residuals", xlab="Blood Pressure") 
-plot(bpdata$weight, studentized, ylab="Studentized Residuals", xlab="Blood Pressure") 
-plot(bpdata$weight, rstudent, ylab="R-Student Residuals", xlab="Blood Pressure") 
-plot(bpdata$weight, pr, ylab="PRESS Residuals", xlab="Blood Pressure") 
 
 #There is one point that is at x=140 BP and the residual is the lowest that is constant across all 4 types.
 
@@ -94,6 +90,7 @@ plot(studentized, bpdata$BP, ylab="Studentized Residuals", xlab="Blood Pressure"
 
 plot(pr, bpdata$BP, ylab="PRESS Residuals", xlab="Blood Pressure") 
 plot(rstudent,bpdata$BP, ylab="R-Student Residuals", xlab="Blood Pressure") 
+
 
 #################
 ## Question 2: ##
