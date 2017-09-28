@@ -108,7 +108,9 @@ data <- read_excel("data-table-B2.xls")
 lm1 <- lm(y ~., data = data)
 summary(lm1) # x5 is not significant
 lm2 <- lm(y ~.-x5, data = data)
-summary(lm2) # all variables are significant
+summary(lm2) 
+
+# x1 has a p value of 0.06. Just leaving it in. it is significant at the 0.1 level
 
 #   (b) Compute each of the five types of residuals discussed in the textbook:
 #       Residuals; Standardized residuals; Studentized residuals; PRESS residuals; R-student residuals.
@@ -123,7 +125,24 @@ rstudent(lm2) # R-student residuals
 #   (c) Use the results from part(a) to decide if there appear to be any outliers and/or high 
 #       influence points.
 
+qqnorm(rstudent(lm2))
+qqline(rstudent(lm2))
 
+# based on the above plots, it does seem like there are a couple of outliers that deviate highly from the line and are even beyond 2
+
+# Lets build some basic scatter plots
+
+plot(data$x1, data$y) # it does seem like there are couple of outliers. 
+
+plot(data$x2, data$y) # there are a couple. I wonder if its the same points
+
+plot(data$x3, data$y) # same
+
+plot(data$x4, data$y) # same
+
+plot(data$x5, data$y) # Interestingly, there is something going on in this plot (parabolic relationship) although x5 is not significant. Couple of outliers
+
+# The y values for the outliers are the same in all the plots. Hence, the outliers in all the plots are the same
 
 #   (d) Produce a normal probability plot of the R-student residuals and evaluate the plot for 
 #       signs of departures from normality.
@@ -131,16 +150,33 @@ rstudent(lm2) # R-student residuals
 qqnorm(rstudent(lm2))
 qqline(rstudent(lm2))
 
+# There are a couple of points that are above 2 and are far off from the staright line
+
 #   (e) Produce plots of the R-student residuals vs. 
 #       (1) the predicted values, and
+
+# The 4 assumptions: equally distributed around 0, equal variance, no pattern, normal distribution (-2 to 2)
+
+plot(predict(lm2), rstudent(lm2))
+
 #       (2) each explanatory variable.
 #       What assumptions may not be satisfied? Explain.
 
-# (1)
-plot(predict(lm2), rstudent(lm2))
-# (2)
 plot(data$x1, rstudent(lm2))
+
+# there are a couple of points beyond 2, but everything else looks alright
+
 plot(data$x2, rstudent(lm2))
+
+nrow(as.data.frame(subset(rstudent(lm2), rstudent(lm2) < 0))) #14
+nrow(as.data.frame(subset(rstudent(lm2), rstudent(lm2) > 0))) #15
+
+# Yep. They are equally distributed around 0. There are still those couple of points but everything else looks alright
+
 plot(data$x3, rstudent(lm2))
+
+# couple of points above 2. Everything else good
+
 plot(data$x4, rstudent(lm2))
 
+# We may have to do something here. There are quite a few points where the variance doesn't seem constant across range. We could even argue there is some pattern.
