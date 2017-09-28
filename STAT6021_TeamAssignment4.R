@@ -68,24 +68,32 @@ plot(bpdata$weight, pr, ylab="PRESS Residuals", xlab="Blood Pressure")
 #   (b) The data set has a point that stands out when viewing studentized residuals but not 
 #       when viewing standardized residuals.
 
-plot(bpdata$BP, standardized, ylab="Standardized Residuals", xlab="Blood Pressure") 
-plot(bpdata$BP, studentized, ylab="Studentized Residuals", xlab="Blood Pressure") 
+plot(standardized, bpdata$BP, ylab="Standardized Residuals", xlab="Blood Pressure") 
+plot(studentized, bpdata$BP, ylab="Studentized Residuals", xlab="Blood Pressure") 
 
 #   (c) The data set has a point that stands out when viewing PRESS residuals but not when 
 #       viewing standardized residuals.
 
+plot(standardized, bpdata$BP, ylab="Standardized Residuals", xlab="Blood Pressure") 
+plot(pr, bpdata$BP, ylab="PRESS Residuals", xlab="Blood Pressure") 
 
 #   (d) The data set has a point that stands out when viewing R-student residuals but not when 
 #       viewing standardized residuals.
 
+plot(standardized, bpdata$BP, ylab="Standardized Residuals", xlab="Blood Pressure") 
+plot(rstudent,bpdata$BP, ylab="R-Student Residuals", xlab="Blood Pressure") 
 
 #   (e) The data set has a point that stands out when viewing PRESS residuals but not when 
 #       viewing studentized residuals.
 
+plot(pr, bpdata$BP, ylab="PRESS Residuals", xlab="Blood Pressure") 
+plot(studentized, bpdata$BP, ylab="Studentized Residuals", xlab="Blood Pressure") 
 
 #   (f) The data set has a point that stands out when viewing R-student residuals but not when 
 #       viewing PRESS residuals.
 
+plot(pr, bpdata$BP, ylab="PRESS Residuals", xlab="Blood Pressure") 
+plot(rstudent,bpdata$BP, ylab="R-Student Residuals", xlab="Blood Pressure") 
 
 #################
 ## Question 2: ##
