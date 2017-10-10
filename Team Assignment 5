@@ -21,7 +21,7 @@
 #   (a) The residuals have constant variance.
 #   (b) The residuals have variance proportional to E(y).
 #   (c) The residuals have variance proportional to E(y)^2.
-#   (d) The residuals have variance proportional to 1/E(y).
+#   (d) The residuals have variance proportional to 1/E(y). 
 
 data <- read_csv("stat4.csv")
 
@@ -128,9 +128,11 @@ plot(Predicted_values, pr) # variance proportional to y(c - y)
 #   (2) Compare the results of the three models and indicate which seems to be the best model. 
 # For each part, include at least three residual plot with at least one from each model.
 #
-#   (a) The residuals have variance proportional to E(y).
-#   (b) The residuals have variance proportional to E(y)^2.
-#   (c) The residuals have variance proportional to 1/E(y).
+#   (a) The residuals have variance proportional to E(y). #dataset B from above
+
+#   (b) The residuals have variance proportional to E(y)^2. #dataset C from above
+
+#   (c) The residuals have variance proportional to 1/E(y). #dataset D from above
 
 
 
