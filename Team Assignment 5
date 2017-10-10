@@ -22,9 +22,97 @@
 #   (b) The residuals have variance proportional to E(y).
 #   (c) The residuals have variance proportional to E(y)^2.
 #   (d) The residuals have variance proportional to 1/E(y).
+
+data <- read_csv("stat4.csv")
+
+lm <- lm(y~x, data=data) #Run the linear regression
+
+# generate predictions
+
+Predicted_values = predict(lm, newdata = data)
+
+# calculate the residuals
+library("MASS") #need this package to calculate the studentized residual with studres()
+studentized <- studres(lm); studentized #Find the studentized residuals
+rstudent <-rstudent(lm); rstudent #Find the R-student residuals
+standardized = rstandard(lm); standardized #Find the standardized residuals
+
+# press residual
+(r <- resid(lm))
+(pr <- resid(lm)/(1 - lm.influence(lm)$hat))
+sum(r^2)
+press<- sum(pr^2) #PRESS residual is 321.22
+
+
+# estimate against predicted values
+
+plot(Predicted_values, standardized)# 1/E(y) type of relationship
+plot(Predicted_values, studentized) # 1/E(y) type of relationship
+plot(Predicted_values, rstudent) # 1/E(y) type of relationship
+plot(Predicted_values, pr) # 1/E(y) type of relationship
+
+
+
 #   (e) The residuals have variance proportional to C-E(y) for some constant C.
+
+data <- read_csv("stat5.csv")
+
+lm <- lm(y~x, data=data) #Run the linear regression
+
+# generate predictions
+
+Predicted_values = predict(lm, newdata = data)
+
+# calculate the residuals
+library("MASS") #need this package to calculate the studentized residual with studres()
+studentized <- studres(lm); studentized #Find the studentized residuals
+rstudent <-rstudent(lm); rstudent #Find the R-student residuals
+standardized = rstandard(lm); standardized #Find the standardized residuals
+
+# press residual
+(r <- resid(lm))
+(pr <- resid(lm)/(1 - lm.influence(lm)$hat))
+sum(r^2)
+press<- sum(pr^2) #PRESS residual is 321.22
+
+
+# estimate against predicted values
+
+plot(Predicted_values, standardized)# C - E(y) type of relationship
+plot(Predicted_values, studentized) # C - E(y) type of relationship
+plot(Predicted_values, rstudent) # C - E(y) type of relationship
+plot(Predicted_values, pr) # C - E(y) type of relationship
+
+
 #   (f) The residuals have variance proportional to E(y)(C-E(y)) for some constant C.
 
+data <- read_csv("stat6.csv")
+
+lm <- lm(y~x, data=data) #Run the linear regression
+
+# generate predictions
+
+Predicted_values = predict(lm, newdata = data)
+
+# calculate the residuals
+library("MASS") #need this package to calculate the studentized residual with studres()
+studentized <- studres(lm); studentized #Find the studentized residuals
+rstudent <-rstudent(lm); rstudent #Find the R-student residuals
+standardized = rstandard(lm); standardized #Find the standardized residuals
+
+# press residual
+(r <- resid(lm))
+(pr <- resid(lm)/(1 - lm.influence(lm)$hat))
+sum(r^2)
+press<- sum(pr^2) #PRESS residual is 321.22
+
+
+# estimate against predicted values
+
+plot(Predicted_values, standardized)# variance proportional to y(c - y)
+plot(Predicted_values, studentized) # variance proportional to y(c - y)
+plot(Predicted_values, rstudent) # variance proportional to y(c - y)
+plot(Predicted_values, pr) # variance proportional to y(c - y)
 
 
 #################
