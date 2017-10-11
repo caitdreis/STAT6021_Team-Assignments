@@ -18,9 +18,42 @@
 # that is suitable for simple linear regression and satisfies the given specifications on the variance
 # of the residuals. For each part, include a plot of your residuals that shows the required characteristic.
 #
+
+set.seed(1)
+x <- rnorm(30)
 #   (a) The residuals have constant variance.
+
+y <- rnorm(30)
+plot(x, y)
+
+lm <- lm(y ~ x)
+summary(lm)
+qqnorm(residuals(lm))
+qqline(residuals(lm))
+plot(predict(lm), residuals(lm))
+
 #   (b) The residuals have variance proportional to E(y).
+
+y <- rnorm(30, mean = 0, sd = x^2)
+plot(x, y)
+
+lm <- lm(y ~ x)
+summary(lm)
+qqnorm(residuals(lm))
+qqline(residuals(lm))
+plot(predict(lm), residuals(lm))
+
 #   (c) The residuals have variance proportional to E(y)^2.
+
+y <- rnorm(30, mean = 0, sd = x^4)
+plot(x, y)
+
+lm <- lm(y ~ x)
+summary(lm)
+qqnorm(residuals(lm))
+qqline(residuals(lm))
+plot(predict(lm), residuals(lm))
+
 #   (d) The residuals have variance proportional to 1/E(y). 
 
 data <- read_csv("stat4.csv")
