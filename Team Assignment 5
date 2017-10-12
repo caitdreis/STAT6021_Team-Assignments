@@ -220,8 +220,8 @@ plot(Predicted_values, pr) # variance proportional to y(c - y)
 #   (2) Compare the results of the three models and indicate which seems to be the best model. 
 # For each part, include at least three residual plot with at least one from each model.
 #
-#   (a) The residuals have variance proportional to E(y). #dataset B from above
-data <- read.csv("stat_4.csv"); View(data)
+#   (a) The residuals have variance proportional to E(y). # dataset B from above
+data <- read.csv("stat2.csv")
 
 lm <- lm(y~x, data=data) #ordinary least squares
 summary(lm)
@@ -230,7 +230,7 @@ anova(lm) #MSE 34.9
 ## Box-Cox transformation
 library(MASS)
 boxcox(lm)
-lambda.trans <- ?? #NEED HELP HERE!
+lambda.trans <- data$x[which.max(data$y)]
 
 ## Transform the response variable 
 data$y_trans <- data$y^lambda.trans
@@ -255,14 +255,122 @@ anova(lm.wt) #MSE 1.000
 ei.wt <- weighted.residuals(lm.wt); ei.wt
 ti.wt <- rstudent(lm.wt); ti.wt
 
-#comparison of models
-
-#residual plot
-rstudent <-rstudent(lm.wt); rstudent #Find the R-student residuals
-plot(data$x,rstudent) ##rstudent residual plots vs. explanatory variables
 
 #   (b) The residuals have variance proportional to E(y)^2. #dataset C from above
 
+data.2.b <- read.csv("stat3.csv")
+
+lm2 <- lm(y~x, data=data.2.b) #ordinary least squares
+summary(lm2)
+anova(lm2)
+
+## Box-Cox transformation
+library(MASS)
+boxcox(lm2)
+lambda.trans.2 <- data.2.b$x[which.max(data.2.b$y)]
+
+## Transform the response variable 
+data.2.b$y_trans <- data.2.b$y^lambda.trans.2
+
+## Run the transformed ordinary least squares linear regression
+lm.trans.2 <- lm(y_trans~x, data=data.2.b)
+summary(lm.trans.2)
+anova(lm.trans.2)
+ti.trans.2 <- rstudent(lm.trans.2); ti.trans.2
+
+## Run the weighted linear regression
+## Estimate weights 
+data_low.2 <- data.2.b[data.2.b$x<10,]
+wt_low.2 <- 1/summary(lm(y~x, data=data_low.2))$sigma^2
+data_high.2 <- data.2.b[data.2.b$x>=10,]
+wt_high.2 <- 1/summary(lm(y~x, data=data_high.2))$sigma^2
+data.2.b$a <- ifelse(data.2.b$x<10,wt_low.2,wt_high.2)
+
+lm.wt.2 <- lm(y~x, data=data.2.b, weights=a)
+summary(lm.wt.2)
+anova(lm.wt.2) # MSE
+ei.wt.2 <- weighted.residuals(lm.wt.2); ei.wt.2
+ti.wt.2 <- rstudent(lm.wt.2); ti.wt.2
+
 #   (c) The residuals have variance proportional to 1/E(y). #dataset D from above
 
+data.2.c <- read.csv("stat4.csv")
+
+lm3 <- lm(y~x, data=data.2.c) #ordinary least squares
+summary(lm3)
+anova(lm3)
+
+## Box-Cox transformation
+library(MASS)
+boxcox(lm3)
+lambda.trans.3 <- data.2.c$x[which.max(data.2.c$y)]
+
+## Transform the response variable 
+data.2.c$y_trans <- data.2.c$y^lambda.trans.3
+
+## Run the transformed ordinary least squares linear regression
+lm.trans.3 <- lm(y_trans~x, data=data.2.c)
+summary(lm.trans.3)
+anova(lm.trans.3)
+ti.trans.3 <- rstudent(lm.trans.3); ti.trans.3
+
+## Run the weighted linear regression
+## Estimate weights 
+data_low.3 <- data.2.c[data.2.c$x<10,]
+wt_low.3 <- 1/summary(lm(y~x, data=data_low.3))$sigma^2
+data_high.3 <- data.2.c[data.2.c$x>=10,]
+wt_high.3 <- 1/summary(lm(y~x, data=data_high.3))$sigma^2
+data.2.c$a <- ifelse(data.2.c$x<10,wt_low.3,wt_high.3)
+
+lm.wt.3 <- lm(y~x, data=data.2.c, weights=a)
+summary(lm.wt.3)
+anova(lm.wt.3) # MSE
+ei.wt.3 <- weighted.residuals(lm.wt.3); ei.wt.3
+ti.wt.3 <- rstudent(lm.wt.3); ti.wt.3
+
+#comparison of models
+
+#residual plots for (a)
+
+# weighted plot
+rstudent <-rstudent(lm.wt); rstudent #Find the R-student residuals
+plot(data$x,rstudent) ##rstudent residual plots vs. explanatory variables
+
+# ordinal plot
+rstudent <- rstudent(lm)
+plot(data$x,rstudent)
+
+# transformed plot
+rstudent <- rstudent(lm.trans)
+plot(data$x, rstudent)
+
+#residual plots for (b)
+
+# weighted plot
+rstudent.2 <-rstudent(lm.wt.2); rstudent.2
+plot(data.2.b$x, rstudent.2)
+
+# ordinal plot
+rstudent.2 <- rstudent(lm2)
+plot(data.2.b$x, rstudent.2)
+
+# transformed plot
+rstudent.2 <- rstudent(lm.trans.2)
+plot(data.2.b$x, rstudent.2)
+
+#residual plots for (c)
+
+# weighted plot
+rstudent.3 <-rstudent(lm.wt.3); rstudent.3
+plot(data.2.c$x, rstudent.3)
+
+# ordinal plot
+rstudent.3 <-rstudent(lm3); rstudent.3
+plot(data.2.c$x, rstudent.3)
+
+# transformed plot
+rstudent.3 <-rstudent(lm.trans.3); rstudent.3
+plot(data.2.c$x, rstudent.3)
+
+# Overall, weighted model seems to be the best model.
 
