@@ -162,10 +162,48 @@ plot(Predicted_values, pr) # variance proportional to y(c - y)
 # For each part, include at least three residual plot with at least one from each model.
 #
 #   (a) The residuals have variance proportional to E(y). #dataset B from above
+data <- read.csv("stat_4.csv"); View(data)
+
+lm <- lm(y~x, data=data) #ordinary least squares
+summary(lm)
+anova(lm) #MSE 34.9
+
+## Box-Cox transformation
+library(MASS)
+boxcox(lm)
+lambda.trans <- ?? #NEED HELP HERE!
+
+## Transform the response variable 
+data$y_trans <- data$y^lambda.trans
+
+## Run the transformed ordinary least squares linear regression
+lm.trans <- lm(y_trans~x, data=data)
+summary(lm.trans)
+anova(lm.trans)
+ti.trans <- rstudent(lm.trans); ti.trans
+
+## Run the weighted linear regression
+## Estimate weights 
+data_low <- data[data$x<10,]
+wt_low <- 1/summary(lm(y~x, data=data_low))$sigma^2
+data_high <- data[data$x>=10,]
+wt_high <- 1/summary(lm(y~x, data=data_high))$sigma^2
+data$a <- ifelse(data$x<10,wt_low,wt_high)
+
+lm.wt <- lm(y~x, data=data, weights=a)
+summary(lm.wt)
+anova(lm.wt) #MSE 1.000 
+ei.wt <- weighted.residuals(lm.wt); ei.wt
+ti.wt <- rstudent(lm.wt); ti.wt
+
+#comparison of models
+
+#residual plot
+rstudent <-rstudent(lm.wt); rstudent #Find the R-student residuals
+plot(data$x,rstudent) ##rstudent residual plots vs. explanatory variables
 
 #   (b) The residuals have variance proportional to E(y)^2. #dataset C from above
 
 #   (c) The residuals have variance proportional to 1/E(y). #dataset D from above
-
 
 
