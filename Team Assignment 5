@@ -17,42 +17,101 @@
 # For each part of this problem, you are to create (or find) a data set with about 30 observations 
 # that is suitable for simple linear regression and satisfies the given specifications on the variance
 # of the residuals. For each part, include a plot of your residuals that shows the required characteristic.
-#
 
-set.seed(1)
-x <- rnorm(30)
 #   (a) The residuals have constant variance.
 
-y <- rnorm(30)
-plot(x, y)
+data <- read_csv("stat1.csv")
 
-lm <- lm(y ~ x)
-summary(lm)
-qqnorm(residuals(lm))
-qqline(residuals(lm))
-plot(predict(lm), residuals(lm))
+lm <- lm(y~x, data=data) #Run the linear regression
+
+# generate predictions
+
+Predicted_values = predict(lm, newdata = data)
+
+# calculate the residuals
+library("MASS") #need this package to calculate the studentized residual with studres()
+studentized <- studres(lm); studentized #Find the studentized residuals
+rstudent <-rstudent(lm); rstudent #Find the R-student residuals
+standardized = rstandard(lm); standardized #Find the standardized residuals
+
+# press residual
+(r <- resid(lm))
+(pr <- resid(lm)/(1 - lm.influence(lm)$hat))
+sum(r^2)
+press<- sum(pr^2) #PRESS residual is 321.22
+
+
+# estimate against predicted values
+
+plot(Predicted_values, standardized)# constant variance. It is hard to simulate data at the tail ends. But the values are very close
+plot(Predicted_values, studentized) # constant variance. It is hard to simulate data at the tail ends. But the values are very close
+plot(Predicted_values, rstudent) # constant variance. It is hard to simulate data at the tail ends. But the values are very close
+plot(Predicted_values, pr) # constant variance. It is hard to simulate data at the tail ends. But the values are very close
+
 
 #   (b) The residuals have variance proportional to E(y).
 
-y <- rnorm(30, mean = 0, sd = x^2)
-plot(x, y)
+data <- read_csv("stat2.csv")
 
-lm <- lm(y ~ x)
-summary(lm)
-qqnorm(residuals(lm))
-qqline(residuals(lm))
-plot(predict(lm), residuals(lm))
+lm <- lm(y~x, data=data) #Run the linear regression
+
+# generate predictions
+
+Predicted_values = predict(lm, newdata = data)
+
+# calculate the residuals
+library("MASS") #need this package to calculate the studentized residual with studres()
+studentized <- studres(lm); studentized #Find the studentized residuals
+rstudent <-rstudent(lm); rstudent #Find the R-student residuals
+standardized = rstandard(lm); standardized #Find the standardized residuals
+
+# press residual
+(r <- resid(lm))
+(pr <- resid(lm)/(1 - lm.influence(lm)$hat))
+sum(r^2)
+press<- sum(pr^2) #PRESS residual is 321.22
+
+
+# estimate against predicted values
+
+plot(Predicted_values, standardized)# perfect graph. proportional to E(y)
+plot(Predicted_values, studentized) # perfect graph. proportional to E(y)
+plot(Predicted_values, rstudent) # perfect graph. proportional to E(y)
+plot(Predicted_values, pr) # perfect graph. proportional to E(y)
+
 
 #   (c) The residuals have variance proportional to E(y)^2.
 
-y <- rnorm(30, mean = 0, sd = x^4)
-plot(x, y)
+data <- read_csv("stat3.csv")
 
-lm <- lm(y ~ x)
-summary(lm)
-qqnorm(residuals(lm))
-qqline(residuals(lm))
-plot(predict(lm), residuals(lm))
+lm <- lm(y~x, data=data) #Run the linear regression
+
+# generate predictions
+
+Predicted_values = predict(lm, newdata = data)
+
+# calculate the residuals
+library("MASS") #need this package to calculate the studentized residual with studres()
+studentized <- studres(lm); studentized #Find the studentized residuals
+rstudent <-rstudent(lm); rstudent #Find the R-student residuals
+standardized = rstandard(lm); standardized #Find the standardized residuals
+
+# press residual
+(r <- resid(lm))
+(pr <- resid(lm)/(1 - lm.influence(lm)$hat))
+sum(r^2)
+press<- sum(pr^2) #PRESS residual is 321.22
+
+
+# estimate against predicted values
+
+plot(Predicted_values, standardized)# reasonably E(y) square type of relationship
+plot(Predicted_values, studentized)# reasonably E(y) square type of relationship
+plot(Predicted_values, rstudent)# reasonably E(y) square type of relationship
+plot(Predicted_values, pr)# reasonably E(y) square type of relationship
+
+
+
 
 #   (d) The residuals have variance proportional to 1/E(y). 
 
@@ -79,10 +138,10 @@ press<- sum(pr^2) #PRESS residual is 321.22
 
 # estimate against predicted values
 
-plot(Predicted_values, standardized)# 1/E(y) type of relationship
-plot(Predicted_values, studentized) # 1/E(y) type of relationship
-plot(Predicted_values, rstudent) # 1/E(y) type of relationship
-plot(Predicted_values, pr) # 1/E(y) type of relationship
+plot(Predicted_values, standardized) # inverse relationship
+plot(Predicted_values, studentized) # inverse relationship
+plot(Predicted_values, rstudent) # inverse relationship
+plot(Predicted_values, pr) # inverse relationship
 
 
 
