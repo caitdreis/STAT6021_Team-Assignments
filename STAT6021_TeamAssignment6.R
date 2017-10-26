@@ -14,6 +14,7 @@
 ## Please submit your plots in one PDF as a separate attachment. ##
 ###################################################################
 
+install.packages("readxl")
 library("readxl")
 
 #################
@@ -41,6 +42,14 @@ plot(cooks.distance(lm.a))
 
 #   (b) The data set has a point that is identified by Cook's D but not by DFBETAS.
 
+#After testing multuple datasets including those from the book and the hospital text data,
+#I don't think it is possible to have a point that is idnetified by Cook's D and not by DFBETAS. 
+#The main component of a problem with a significant point highlighted by the DFBetas is
+#that each observation has several measures of influence one for each coefficient in the parameter estimate. 
+#Cook's D helps with this problem because it only presents a single summary measure for each observation.
+#Because Cook's D is a single measure the the DFBetas includes multiple estimates of the coefficients it
+#would require an extreme dataset to potentially satisfy this problem.
+
 #   (c) The data set has a point that is identified by DFBETAS but not by Cook's D.
 
 data.c <- read_excel("data-table-B5.xls")
@@ -56,7 +65,14 @@ plot(cooks.distance(lm.c))
 
 #   (d) The data set has a point that is identified by DFBETAS but not by DFFITS.
 
+data.d <- read_excel("data-table-B1.xls")
+lm.d <- lm(y ~ ., data = data.d)
 
+summary(influence.measures(lm.d))
+#   dfb.1_  dfb.x1  dfb.x2  dfb.x3  dfb.x4 dfb.x5 dfb.x6 dfb.x7 dfb.x8 dfb.x9  dffit   cov.r   cook.d hat  
+#10  0.36   -1.23_*  0.18   -0.18    0.06   0.23  -0.27   0.54  -0.69   0.25   -1.78    0.17    0.25   0.37
+
+plot(lm.d, data=data.d) #can see the residuals vs. the fitted points
 
 #   (e) The data set has a point that is identified by DFBETAS and DFFITS but not by the hat matrix
 #       diagonal.
@@ -64,7 +80,6 @@ plot(cooks.distance(lm.c))
 data.e <- read_excel("data-table-B14.xls")
 lm.e <- lm(y ~ x1+x2+x3+x4, data = data.e)
 summary(influence.measures(lm.e))
-
 #      dfb.1_  dfb.x1 dfb.x2  dfb.x3  dfb.x4  dffit   cov.r   cook.d  hat  
 # 2    1.67_*  0.21  -3.77_*  0.05   -1.07_* -4.67_*  0.04_*  1.98_*  0.47
 
@@ -85,6 +100,7 @@ summary(influence.measures(lm.f))
 # observation 8 is identified by the hat matrix diagonal and DFFITS but not by Cook's D.
 
 plot(cooks.distance(lm.f))
+
 
 #################
 ## Question 2: ##
