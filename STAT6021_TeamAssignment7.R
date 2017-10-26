@@ -5,6 +5,11 @@
 #                         #
 ###########################
 
+#Boh Young Suh
+#Caitlin Dreisbach
+#Sai Prakesh
+#Isabelle Liu
+
 ## Please submit one set of answers per team.                                  ##
 ## Your answers should be submitted as a .csv file per the instructions below. ##
 ## You should also submit your annotated R code per the instructions below.    ##
