@@ -4,6 +4,11 @@
 #                         #
 ###########################
 
+#Boh Young Suh
+#Caitlin Dreisbach
+#Sai Prakesh
+#Isabelle Liu
+
 ## Please submit one set of answers per team.                    ##
 ## Your answers may be submitted as an annotated R file.         ##
 ## Please submit your plots in one PDF as a separate attachment. ##
@@ -38,7 +43,20 @@ plot(cooks.distance(lm.a))
 
 #   (c) The data set has a point that is identified by DFBETAS but not by Cook's D.
 
+data.c <- read_excel("data-table-B5.xls")
+lm.c <- lm(y ~ x1+x2+x3+x4, data = data.c)
+summary(influence.measures(lm.c))
+
+#      dfb.1_  dfb.x1  dfb.x2  dfb.x3  dfb.x4  dffit   cov.r   cook.d hat
+#  9  -1.16_*  1.20_*  1.18_* -1.10_*  1.16_*  2.13_*  0.66    0.74   0.44
+
+# observation 9 is identified by DFBETAS but not by Cook's D.
+
+plot(cooks.distance(lm.c))
+
 #   (d) The data set has a point that is identified by DFBETAS but not by DFFITS.
+
+
 
 #   (e) The data set has a point that is identified by DFBETAS and DFFITS but not by the hat matrix
 #       diagonal.
@@ -57,6 +75,16 @@ plot(cooks.distance(lm.e))
 #   (f) The data set has a point that is identified by the hat matrix diagonal and DFFITS but not 
 #       by Cook's D.
 
+data.f <- read_excel("data-table-B14.xls")
+lm.f <- lm(y ~ x2, data = data.f)
+summary(influence.measures(lm.f))
+
+#     dfb.1_  dfb.x2  dffit   cov.r   cook.d  hat
+# 8  -0.47    0.94    1.03_*  1.10    0.48    0.24_*
+
+# observation 8 is identified by the hat matrix diagonal and DFFITS but not by Cook's D.
+
+plot(cooks.distance(lm.f))
 
 #################
 ## Question 2: ##
