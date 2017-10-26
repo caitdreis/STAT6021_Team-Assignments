@@ -25,7 +25,7 @@
 # Once you have predicted the values of the response variable for the testing set,
 # you should save them to a vector called predvect and write them into a .csv file 
 # using the following code:
-write.table(predvect, file="teamassign05preds.csv", row.names=F, col.names=F, sep=",")
+write.table(predvect, file="teamassign07preds.csv", row.names=F, col.names=F, sep=",")
 #
 # Your annotated R code should explain the reasoning behind your choices in 
 # model selection and should be neatly organized.
