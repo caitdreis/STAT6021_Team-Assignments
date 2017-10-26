@@ -9,6 +9,7 @@
 ## Please submit your plots in one PDF as a separate attachment. ##
 ###################################################################
 
+library("readxl")
 
 #################
 ## Question 1: ##
@@ -21,11 +22,38 @@
 #
 #   (a) The data set has a point that is identified by all of the leverage and influential point
 #       diagnostics -- hat matrix diagonal, Cook's D, DFBETAS, and DFFITS.
+
+data.a <- read_excel("data-table-B13.xls")
+lm.a <- lm(y ~ x1+x2+x3, data = data.a)
+
+summary(influence.measures(lm.a))
+#     dfb.1_  dfb.x1  dfb.x2  dfb.x3  dffit   cov.r   cook.d  hat 
+# 20 -2.98_*  4.09_* -5.36_*  4.60_* -5.90_*  0.22_*  4.90_*  0.55_*
+
+# obervation 20 is identified by all of the leverage and influential points diagnostics.
+
+plot(cooks.distance(lm.a))
+
 #   (b) The data set has a point that is identified by Cook's D but not by DFBETAS.
+
 #   (c) The data set has a point that is identified by DFBETAS but not by Cook's D.
+
 #   (d) The data set has a point that is identified by DFBETAS but not by DFFITS.
+
 #   (e) The data set has a point that is identified by DFBETAS and DFFITS but not by the hat matrix
 #       diagonal.
+
+data.e <- read_excel("data-table-B14.xls")
+lm.e <- lm(y ~ x1+x2+x3+x4, data = data.e)
+summary(influence.measures(lm.e))
+
+#      dfb.1_  dfb.x1 dfb.x2  dfb.x3  dfb.x4  dffit   cov.r   cook.d  hat  
+# 2    1.67_*  0.21  -3.77_*  0.05   -1.07_* -4.67_*  0.04_*  1.98_*  0.47
+
+# observation 2 is identified by DFBETAS and DFFITS but not by the hat matrix
+
+plot(cooks.distance(lm.e))
+
 #   (f) The data set has a point that is identified by the hat matrix diagonal and DFFITS but not 
 #       by Cook's D.
 
