@@ -9,7 +9,6 @@
 ## You should also submit your annotated R code per the instructions below.    ##
 #################################################################################
 
-
 # For this team assignment you will use the file "teamassign08train.csv" to develop
 # a linear model using whatever methods you consider appropriate. You will then use
 # the model that you have developed to predict the values of the response variable
